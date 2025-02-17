@@ -1,88 +1,93 @@
 # CaptchaSolver-AudioImage-ML
-CAPTCHA Processing Report
+Report on Captcha Processing Project
 
 1. Introduction
+This report provides an overview of the Captcha processing project, including the technologies used, the processing workflow, and installation instructions. The project involves handling both image-based and audio-based Captchas stored on Google Drive, preprocessing them, and extracting textual information from images using Optical Character Recognition (OCR) and an LSTM-based model.
 
-CAPTCHA (Completely Automated Public Turing test to tell Computers and Humans Apart) is a widely used security mechanism to prevent automated bots from accessing web services. This project focuses on processing both image and audio-based CAPTCHAs using specific techniques to analyze and extract meaningful data.
+2. Technologies Used
 
-2. Dataset Overview
+Google Colab: Used as the primary development environment.
 
-The dataset for this project consists of both image and audio CAPTCHAs stored in a Google Drive directory. The workflow follows these steps:
+Python: The programming language for implementation.
 
-Mounting Google Drive: The dataset is accessed by mounting Google Drive to the Colab environment.
+OpenCV (cv2): For image preprocessing techniques.
 
-Loading Dataset Files: The script lists all available .png and .wav files to ensure proper dataset handling.
+Pytesseract (Tesseract-OCR): For extracting text from Captcha images.
 
-Displaying Sample Images: CAPTCHA images are opened using PIL and displayed for initial inspection.
+PIL (Pillow): For image handling.
 
-Playing CAPTCHA Audio: Sample audio CAPTCHAs are played using IPython.display.Audio to verify proper loading.
+Matplotlib: For visualizing images.
 
-3. Data Preprocessing
+IPython.display: For handling and playing audio files.
 
-3.1 Image CAPTCHA Preprocessing
+TensorFlow/Keras: For building and training the LSTM model.
 
-Processing image CAPTCHAs requires several steps to clean and enhance the data for recognition:
+3. Data Handling
 
-Grayscale Conversion: Converts colored images to grayscale to reduce complexity.
+Captcha dataset is stored in Google Drive and mounted in Colab.
 
-Noise Reduction: Uses morphological transformations and filters to remove background noise.
+Two types of Captchas: Audio-based (WAV files) and Image-based (PNG files).
 
-Thresholding: Applies adaptive or Otsu’s thresholding to enhance character visibility.
+File paths are structured as:
 
-Segmentation: Splits individual characters from the CAPTCHA image to facilitate recognition.
+audio_path = "/content/drive/MyDrive/captchas/audio"
 
-3.2 Audio CAPTCHA Preprocessing
+image_path = "/content/drive/MyDrive/captchas/images"
 
-Audio CAPTCHAs require signal processing techniques to extract meaningful text:
+4. Processing Workflow
+Step 1: Data Loading
 
-Noise Filtering: Uses bandpass filtering to remove unwanted background sounds.
+Mount Google Drive and access the dataset.
 
-Spectrogram Analysis: Converts audio waves into spectrograms for better feature extraction.
+List available audio and image Captcha files.
 
-Speech-to-Text Conversion: Applies deep learning models or traditional ASR (Automatic Speech Recognition) techniques to transcribe the spoken CAPTCHA.
+Display a sample image and play a sample audio file.
 
-4. Model Development
+Step 2: Image Preprocessing
 
-The project explores different machine learning and deep learning models to decode CAPTCHAs accurately.
+Convert the image to grayscale using OpenCV.
 
-4.1 Image-Based CAPTCHA Recognition
+Apply Gaussian blur to reduce noise.
 
-Convolutional Neural Networks (CNNs): Used for recognizing alphanumeric characters in images.
+Apply binary thresholding for text enhancement.
 
-Optical Character Recognition (OCR): Applied as a baseline approach to extract text from processed images.
+Perform dilation to improve text clarity.
 
-Transfer Learning: Pretrained models such as Tesseract or custom CNN architectures fine-tuned for CAPTCHA classification.
+Step 3: Text Extraction and Recognition
 
-4.2 Audio-Based CAPTCHA Recognition
+Use Pytesseract OCR to extract text from preprocessed images.
 
-Recurrent Neural Networks (RNNs) and LSTMs: Used to capture sequential dependencies in speech data.
+Implement an LSTM-based model to improve Captcha recognition.
 
-DeepSpeech and Wav2Vec: Pretrained speech-to-text models evaluated for their performance in transcribing CAPTCHA audio.
+Train the LSTM model using labeled Captcha images.
 
-5. Performance Evaluation
+Predict the Captcha text using the trained LSTM model.
 
-To assess the effectiveness of the models, various evaluation metrics are considered:
+5. Installation Instructions
+To run the project, follow these steps:
 
-Accuracy: Percentage of correctly recognized CAPTCHAs.
+Set up the environment in Google Colab
 
-Precision and Recall: Measures the reliability of character predictions.
+from google.colab import drive
+drive.mount('/content/drive')
 
-Confusion Matrix: Analyzes model performance by highlighting misclassifications.
+Install required dependencies
 
-CER (Character Error Rate) and WER (Word Error Rate): Used for evaluating audio CAPTCHA recognition.
+!pip install pytesseract tensorflow keras
+!sudo apt install tesseract-ocr
 
-6. Future Improvements
+Import necessary libraries
 
-While the current approach demonstrates promising results, there are areas for improvement:
+import cv2
+import pytesseract
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+import tensorflow as tf
+from tensorflow import keras
 
-Advanced Augmentation Techniques: To make the model more robust against new CAPTCHA styles.
+Run the provided notebook to process images and extract text using LSTM
 
-Ensemble Learning: Combining multiple models to improve accuracy.
+6. Conclusion
+This project successfully processes Captcha images using OCR and LSTM-based recognition techniques. Future improvements may include handling distorted Captchas, improving recognition accuracy, and incorporating audio Captcha processing techniques.
 
-Real-World Integration: Deploying the model as an API for web-based CAPTCHA solving.
-
-Adaptive Learning: Implementing reinforcement learning to handle new and unseen CAPTCHA patterns.
-
-7. Conclusion
-
-This project presents a structured approach to solving CAPTCHAs using image and audio processing techniques. By leveraging preprocessing steps and visualization methods, the dataset is effectively analyzed. Future developments will focus on improving robustness, enhancing model generalization, and integrating real-world applications.
